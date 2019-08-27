@@ -9,6 +9,7 @@
 
 #include "RGBController.h"
 #include "serial_port.h"
+#include "net_port.h"
 #include <vector>
 
 
@@ -29,10 +30,8 @@ public:
     ~LEDStripController();
 
     void Initialize(char* ledstring);
-    void InitializeHuePlus(char * ledstring);
     void InitializeSerial(char* portname, int baud);
     void InitializeUDP(char* clientname, char* port);
-    void InitializeEspurna(char* clientname, char* port, char * apikey);
     char* GetLEDString();
     void SetLEDs(std::vector<RGBColor> colors);
 
@@ -40,18 +39,12 @@ public:
 
 private:
     int baud_rate;
-    int fans;
-    int channel;
-    const int hueSize = 125;
-
-    int * LEDStripXIndex;
-    int * LEDStripYIndex;
 
     char led_string[1024];
     char port_name[128];
     char client_name[1024];
-    char espurna_apikey[128];
     serial_port *serialport;
+    net_port *udpport;
 };
 
 #endif

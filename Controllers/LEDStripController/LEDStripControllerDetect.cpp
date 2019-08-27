@@ -80,14 +80,6 @@ void DetectLEDStripControllers(std::vector<RGBController*> &rgb_controllers)
                         new_controller = new RGBController_LEDStrip(new_ledstrip);
                         rgb_controllers.push_back(new_controller);
                     }
-                    else if (strcmp(argument, "xmas") == 0)
-                    {
-
-                    }
-                    else if (strcmp(argument, "hueplus") == 0)
-                    {
-
-                    }
                 }
             }
         }
