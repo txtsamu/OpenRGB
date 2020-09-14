@@ -1,5 +1,5 @@
 /*-----------------------------------------*\
-|  RGBController_EVGAv1GPU.h                |
+|  RGBController_EVGAGPUv1.h                |
 |                                           |
 |  Generic RGB Interface for OpenRGB        |
 |  EVGA GPU RGB V1 (Pascal) Driver          |

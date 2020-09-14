@@ -1,5 +1,5 @@
 /*-----------------------------------------*\
-|  RGBController_EVGAGPU.cpp                |
+|  RGBController_EVGAGPUv1.cpp              |
 |                                           |
 |  Generic RGB Interface for OpenRGB EVGA   |
 |  GPU V1 (Pascal) Driver                   |
@@ -21,28 +21,28 @@ RGBController_EVGAGPUv1::RGBController_EVGAGPUv1(EVGAGPUv1Controller* evga_ptr)
 
     mode Off;
     Off.name       = "Off";
-    Off.value      = EVGA_GPU_MODE_OFF;
+    Off.value      = EVGA_GPU_V1_MODE_OFF;
     Off.flags      = 0;
     Off.color_mode = MODE_COLORS_NONE;
     modes.push_back(Off);
 
     mode Direct;
     Direct.name       = "Direct";
-    Direct.value      = EVGA_GPU_MODE_CUSTOM;
+    Direct.value      = EVGA_GPU_V1_MODE_CUSTOM;
     Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
     Direct.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
     mode Rainbow;
     Rainbow.name       = "Rainbow";
-    Rainbow.value      = EVGA_GPU_MODE_RAINBOW;
+    Rainbow.value      = EVGA_GPU_V1_MODE_RAINBOW;
     Rainbow.flags      = 0;
     Rainbow.color_mode = MODE_COLORS_NONE;
     modes.push_back(Rainbow);
 
     mode Breathing;
     Breathing.name       = "Breathing";
-    Breathing.value      = EVGA_GPU_MODE_BREATHING;
+    Breathing.value      = EVGA_GPU_V1_MODE_BREATHING;
     Breathing.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
     Breathing.color_mode = MODE_COLORS_PER_LED;
     modes.push_back(Breathing);
