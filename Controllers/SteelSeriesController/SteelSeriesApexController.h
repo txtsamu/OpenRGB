@@ -9,6 +9,7 @@
 
 #include "RGBController.h"
 #include "SteelSeriesGeneric.h"
+#include "SteelSeriesApexBaseController.h"
 
 #include <string>
 #include <hidapi/hidapi.h>
@@ -20,15 +21,11 @@ enum
     APEX_PACKET_ID_DIRECT             = 0x3a,     /* Direct mode                */
 };
 
-class SteelSeriesApexController
+class SteelSeriesApexController : public SteelSeriesApexBaseController
 {
 public:
     SteelSeriesApexController(hid_device* dev_handle, steelseries_type type, const char* path);
     ~SteelSeriesApexController();
-
-    std::string GetDeviceLocation();
-
-    steelseries_type        proto_type;
 
     void SetMode
         (
@@ -39,9 +36,6 @@ public:
     void SetLEDsDirect(std::vector<RGBColor> colors);
 
 private:
-    hid_device*             dev;
-    unsigned char           active_mode;
-    std::string             location;
 
     void    SelectProfile
                 (
