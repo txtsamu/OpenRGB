@@ -12,6 +12,12 @@
 
 #define NUM_LED_ZONES (sizeof(led_zones) / sizeof(ZoneDescription))
 
+struct ZoneDescription
+{
+    std::string name;
+    MSI_ZONE    value;
+};
+
 static const ZoneDescription led_zones[] =
 {
     ZoneDescription{"JRGB1",            MSI_ZONE_J_RGB_1},
@@ -21,7 +27,7 @@ static const ZoneDescription led_zones[] =
     ZoneDescription{"JPIPE1",           MSI_ZONE_J_PIPE_1},
     ZoneDescription{"JPIPE2",           MSI_ZONE_J_PIPE_2},
     ZoneDescription{"JCORSAIR",         MSI_ZONE_J_CORSAIR},
-    ZoneDescription{"Onboard LED 0",    MSI_ZONE_ON_BOARD_LED},
+    ZoneDescription{"Onboard LED 0",    MSI_ZONE_ON_BOARD_LED_0},
     ZoneDescription{"Onboard LED 1",    MSI_ZONE_ON_BOARD_LED_1},
     ZoneDescription{"Onboard LED 2",    MSI_ZONE_ON_BOARD_LED_2},
     ZoneDescription{"Onboard LED 3",    MSI_ZONE_ON_BOARD_LED_3},

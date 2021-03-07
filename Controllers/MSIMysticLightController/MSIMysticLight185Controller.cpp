@@ -216,7 +216,7 @@ ZoneData *MSIMysticLight185Controller::GetZoneData
         return &data.j_pipe_1;
     case MSI_ZONE_J_PIPE_2:
         return &data.j_pipe_2;
-    case MSI_ZONE_ON_BOARD_LED:
+    case MSI_ZONE_ON_BOARD_LED_0:
         return &data.on_board_led;
     case MSI_ZONE_ON_BOARD_LED_1:
         return &data.on_board_led_1;
