@@ -13,7 +13,7 @@
 using namespace std::chrono_literals;
 
 /**------------------------------------------------------------------*\
-    @name Corsair K55 RGB Pro
+    @name Corsair Peripherals V2 Software
     @category Keyboard
     @type USB
     @save :x:
@@ -35,7 +35,7 @@ RGBController_CorsairV2SW::RGBController_CorsairV2SW(CorsairPeripheralV2Controll
     location                            = controller->GetDeviceLocation();
     serial                              = controller->GetSerialString();
 
-    if(corsair->supports & CORSAIR_V2_MODE_SW)
+    if(corsair->protocol & CORSAIR_V2_TYPE_SW_COLOUR_BLOCK)
     {
         mode Direct;
         Direct.name                     = "Direct";
@@ -43,10 +43,7 @@ RGBController_CorsairV2SW::RGBController_CorsairV2SW(CorsairPeripheralV2Controll
         Direct.flags                    = MODE_FLAG_HAS_PER_LED_COLOR;
         Direct.color_mode               = MODE_COLORS_PER_LED;
         modes.push_back(Direct);
-    }
 
-    if(corsair->supports & CORSAIR_V2_MODE_HW)
-    {
         mode Static;
         Static.name                     = "Static";
         Static.value                    = CORSAIR_V2_MODE_STATIC;
@@ -249,6 +246,6 @@ void RGBController_CorsairV2SW::KeepaliveThread()
                 DeviceUpdateLEDs();
             }
         }
-        std::this_thread::sleep_for(3000ms);
+        std::this_thread::sleep_for(30000ms);
     }
 }
