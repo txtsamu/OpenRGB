@@ -1,9 +1,10 @@
 [Desktop Entry]
 Type=Application
-Encoding=UTF-8
+Version=1.5
 Name=OpenRGB
 Comment=Control RGB lighting
+Icon=org.openrgb.OpenRGB
+TryExec=openrgb
 Exec=openrgb
-Icon=OpenRGB
 Terminal=false
 Categories=Utility;
