@@ -10,9 +10,6 @@
 \*---------------------------------------------------------*/
 
 #include "RGBController_AlienwareAW3423DWF.h"
-#include <thread>
-
-using namespace std::chrono_literals;
 
 /**------------------------------------------------------------------*\
     @name AW3423DWF
@@ -22,98 +19,29 @@ using namespace std::chrono_literals;
     @direct :white_check_mark:
     @effects :x:
     @detectors DetectAlienwareAW3423DWFControllers
-    @comment The prefered way of interacting with this device is
-    to use the direct mode, in this mode you cannot choose the
-    individual LED colors (all the LED will be the same color) BUT
-    the frame rate of the color will be more than 3 times higher
-    (better for dynamic effects). However, If you still want to
-    individually control your LEDs set the mode to Static, here
-    you will be able to individually set a different color for each
-    LED but don't expect a frame rate higher than 1fps.
+    @comment
 \*-------------------------------------------------------------------*/
-RGBController_AlienwareAW3423DWF::RGBController_AlienwareAW3423DWF(AlienwareAW3423DWFController* controller_ptr) :
-    controller(controller_ptr)
+
+RGBController_AlienwareAW3423DWF::RGBController_AlienwareAW3423DWF(AlienwareAW3423DWFController* controller_ptr)
 {
-    name        = "Alienware AW3423DWF";
-    vendor      = "Alienware";
-    type        = DEVICE_TYPE_ACCESSORY;
-    description = "Alienware QD-OLED Monitor";
-    location    = controller->GetLocation();
-    serial      = controller->GetSerialString();
+    controller              = controller_ptr;
+
+    name                    = "Alienware AW3423DWF";
+    vendor                  = "Alienware";
+    type                    = DEVICE_TYPE_ACCESSORY;
+    description             = "Alienware AW3423DWF Monitor Device";
+    location                = controller->GetLocation();
+    serial                  = controller->GetSerialString();
 
     mode Direct;
-    Direct.name       = "Direct";
-    Direct.value      = 0;
-    Direct.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Direct.color_mode = MODE_COLORS_PER_LED;
+    Direct.name             = "Direct";
+    Direct.flags            = MODE_FLAG_HAS_PER_LED_COLOR;
+    Direct.color_mode       = MODE_COLORS_PER_LED;
     modes.push_back(Direct);
 
-    mode Static;
-    Static.name       = "Static (indivdual LED control)";
-    Static.value      = 1;
-    Static.flags      = MODE_FLAG_HAS_PER_LED_COLOR;
-    Static.color_mode = MODE_COLORS_PER_LED;
-    modes.push_back(Static);
+    active_mode             = 0;
 
     SetupZones();
-}
-
-void RGBController_AlienwareAW3423DWF::SetupZones()
-{
-    std::vector<std::string> led_names = {"Alien", "Number", "Switch", "All"};
-
-    zone new_zone;
-    new_zone.name          = "Monitor Lighting";
-    new_zone.type          = ZONE_TYPE_LINEAR;
-    new_zone.leds_min      = led_names.size();
-    new_zone.leds_max      = led_names.size();
-    new_zone.leds_count    = led_names.size();
-    new_zone.matrix_map    = NULL;
-    zones.push_back(new_zone);
-
-    for(const std::string& name : led_names)
-    {
-        led new_led;
-        new_led.name = name;
-        leds.push_back(new_led);
-    }
-
-    SetupColors();
-}
-
-void RGBController_AlienwareAW3423DWF::DeviceUpdateLEDs()
-{
-    if(modes[active_mode].value == 0)
-    {
-        UpdateSingleLED(3);
-    }
-    else
-    {
-        for(unsigned int led_idx = 0; led_idx < leds.size() - 1; led_idx++)
-        {
-            UpdateSingleLED(led_idx);
-            std::this_thread::sleep_for(200ms);
-        }
-    }
-}
-
-void RGBController_AlienwareAW3423DWF::UpdateSingleLED(int led)
-{
-    unsigned char led_id = 0x00;
-
-    switch(led)
-    {
-    case 0: led_id = 0x01; break;
-    case 1: led_id = 0x02; break;
-    case 2: led_id = 0x08; break;
-    case 3: led_id = 0x0b; break;
-    }
-
-    RGBColor color = colors[led];
-    controller->SendColor(led_id,
-                          RGBGetRValue(color),
-                          RGBGetGValue(color),
-                          RGBGetBValue(color));
 }
 
 RGBController_AlienwareAW3423DWF::~RGBController_AlienwareAW3423DWF()
@@ -121,12 +49,93 @@ RGBController_AlienwareAW3423DWF::~RGBController_AlienwareAW3423DWF()
     delete controller;
 }
 
-void RGBController_AlienwareAW3423DWF::UpdateZoneLEDs(int zone)
+void RGBController_AlienwareAW3423DWF::SetupZones()
 {
+    zone Logo;
+    Logo.name               = "Logo";
+    Logo.type               = ZONE_TYPE_SINGLE;
+    Logo.leds_min           = 1;
+    Logo.leds_max           = 1;
+    Logo.leds_count         = 1;
+    Logo.matrix_map         = NULL;
+    zones.push_back(Logo);
+
+    led Logo_LED;
+    Logo_LED.name           = "Logo";
+    Logo_LED.value          = 0x01;
+    leds.push_back(Logo_LED);
+
+    zone Number;
+    Number.name             = "Number";
+    Number.type             = ZONE_TYPE_SINGLE;
+    Number.leds_min         = 1;
+    Number.leds_max         = 1;
+    Number.leds_count       = 1;
+    Number.matrix_map       = NULL;
+    zones.push_back(Number);
+
+    led Number_LED;
+    Number_LED.name         = "Number";
+    Number_LED.value        = 0x02;
+    leds.push_back(Number_LED);
+
+    zone PowerButton;
+    PowerButton.name        = "Power Button";
+    PowerButton.type        = ZONE_TYPE_SINGLE;
+    PowerButton.leds_min    = 1;
+    PowerButton.leds_max    = 1;
+    PowerButton.leds_count  = 1;
+    PowerButton.matrix_map  = NULL;
+    zones.push_back(PowerButton);
+
+    led PowerButton_LED;
+    PowerButton_LED.name    = "Power Button";
+    PowerButton_LED.value   = 0x08;
+    leds.push_back(PowerButton_LED);
+
+    SetupColors();
+}
+
+void RGBController_AlienwareAW3423DWF::ResizeZone(int /*zone*/, int /*new_size*/)
+{
+}
+
+void RGBController_AlienwareAW3423DWF::DeviceUpdateLEDs()
+{
+    /*-----------------------------------------------------*\
+    | If all three colors are the same value, speed up the  |
+    | direct mode by using the ALL target (0x0B) instead of |
+    | setting each LED individually.                        |
+    \*-----------------------------------------------------*/
+    if((colors[0] == colors[1]) && (colors[1] == colors[2]))
+    {
+        unsigned char red = RGBGetRValue(colors[0]);
+        unsigned char grn = RGBGetGValue(colors[0]);
+        unsigned char blu = RGBGetBValue(colors[0]);
+        controller->SendColor(0x0B, red, grn, blu);
+    }
+    else
+    {
+        for(unsigned int led_idx = 0; led_idx < leds.size(); led_idx++)
+        {
+            UpdateSingleLED(led_idx);
+        }
+    }
+}
+
+void RGBController_AlienwareAW3423DWF::UpdateZoneLEDs(int /*zone*/)
+{
+    DeviceUpdateLEDs();
+}
+
+void RGBController_AlienwareAW3423DWF::UpdateSingleLED(int led)
+{
+    unsigned char red = RGBGetRValue(colors[led]);
+    unsigned char grn = RGBGetGValue(colors[led]);
+    unsigned char blu = RGBGetBValue(colors[led]);
+    controller->SendColor(leds[led].value, red, grn, blu);
 }
 
 void RGBController_AlienwareAW3423DWF::DeviceUpdateMode()
 {
 }
-
-void RGBController_AlienwareAW3423DWF::ResizeZone(int, int) {}

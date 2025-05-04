@@ -11,23 +11,23 @@
 
 #pragma once
 
-#include "RGBController.h"
 #include "AlienwareAW3423DWFController.h"
+#include "RGBController.h"
 
 class RGBController_AlienwareAW3423DWF : public RGBController
 {
 public:
     explicit RGBController_AlienwareAW3423DWF(AlienwareAW3423DWFController* controller_ptr);
-    ~RGBController_AlienwareAW3423DWF() override;
+    ~RGBController_AlienwareAW3423DWF();
 
     void        SetupZones();
-    void        ResizeZone(int zone, int new_size) override;
+    void        ResizeZone(int zone, int new_size);
 
-    void        DeviceUpdateLEDs() override;
-    void        UpdateZoneLEDs(int zone) override;
-    void        UpdateSingleLED(int led) override;
+    void        DeviceUpdateLEDs();
+    void        UpdateZoneLEDs(int zone);
+    void        UpdateSingleLED(int led);
 
-    void        DeviceUpdateMode() override;
+    void        DeviceUpdateMode();
 
 private:
     AlienwareAW3423DWFController* controller;
