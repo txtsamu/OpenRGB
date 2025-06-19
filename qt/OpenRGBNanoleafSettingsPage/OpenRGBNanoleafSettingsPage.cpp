@@ -112,12 +112,12 @@ void OpenRGBNanoleafSettingsPage::on_RemoveNanoleafDeviceButton_clicked()
 
     QListWidgetItem* item = ui->NanoleafDeviceList->item(cur_row);
     OpenRGBNanoleafSettingsEntry* entry = (OpenRGBNanoleafSettingsEntry*) ui->NanoleafDeviceList->itemWidget(item);
-    LOG_TRACE("[%s] Remove %s:%d", "Nanoleaf", entry->address.toStdString().c_str(), entry->port);
+    std::string location = entry->getLocation();
+    LOG_TRACE("[%s] Remove %s", "Nanoleaf", location.c_str());
 
     ui->NanoleafDeviceList->removeItemWidget(item);
     delete item;
 
-    std::string location = entry->address.toStdString()+":"+std::to_string(entry->port);
     delete entries[location];
     entries.erase(location);
 
