@@ -95,6 +95,19 @@ RGBFusion2USBController::RGBFusion2USBController(hid_device* handle, const char*
 
 RGBFusion2USBController::~RGBFusion2USBController()
 {
+    /*-----------------------------------------------------*\
+    | Tell the firmware to keep the current lighting after  |
+    | the host goes away (command 0x47).  Gigabyte's own    |
+    | software sends this when it closes or the PC suspends |
+    | and clears it again on attach/resume; without it the  |
+    | controller drops back to its default lighting as soon |
+    | as the HID handle is closed.                          |
+    \*-----------------------------------------------------*/
+    if(SupportsSetPersistentLighting())
+    {
+        SetPersistentLightingEnabled(true);
+    }
+
     hid_close(dev);
 }
 
