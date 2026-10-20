@@ -7459,8 +7459,8 @@ const gb_fusion2_device* gb_fusion2_device_list_data[] =
     &b650m_gmg_x_ax_device,
     &b650m_gmg_x_ax_2_device,
     &b650m_h_device,
+    &b650m_k_2_device,  // name lookup takes the first match; layout 13 (D_LED1 + D_LED2) must win for Rev 1.1
     &b650m_k_device,
-    &b650m_k_2_device,
     &b650m_pwr_ddr4_device,
     &b650m_s2h_device,
     &b660_aor_elite_ax_ddr4_device,
