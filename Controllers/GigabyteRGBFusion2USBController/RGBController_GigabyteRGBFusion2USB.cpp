@@ -429,6 +429,7 @@ RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController
     Static.colors_max           = 1;
     Static.color_mode           = MODE_COLORS_MODE_SPECIFIC;
     Static.colors.resize(1);
+    Static.colors[0]            = 0x00FFFFFF;               // visible default; black draws nothing
     modes.push_back(Static);
 
     mode Breathing;
@@ -449,6 +450,7 @@ RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController
     Breathing.colors_max        = 1;
     Breathing.color_mode        = MODE_COLORS_MODE_SPECIFIC;
     Breathing.colors.resize(1);
+    Breathing.colors[0]         = 0x00FFFFFF;
     modes.push_back(Breathing);
 
     mode Blinking;
@@ -469,6 +471,7 @@ RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController
     Blinking.colors_max         = 1;
     Blinking.color_mode         = MODE_COLORS_MODE_SPECIFIC;
     Blinking.colors.resize(1);
+    Blinking.colors[0]          = 0x00FFFFFF;
     modes.push_back(Blinking);
 
     mode ColorCycle;
@@ -504,6 +507,7 @@ RGBController_RGBFusion2USB::RGBController_RGBFusion2USB(RGBFusion2USBController
     Flashing.colors_max         = 1;
     Flashing.color_mode         = MODE_COLORS_MODE_SPECIFIC;
     Flashing.colors.resize(1);
+    Flashing.colors[0]          = 0x00FFFFFF;
     modes.push_back(Flashing);
 
     mode Wave;
